@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/layui/css/layui.css">
+	<script type="text/javascript" src="__STATIC__/plugins/layui/layui.js"></script>
+<style>
+        
+		.table{width:655px;height:955px;margin:auto;font-size:11px}
+
+td{border:1px solid black;text-align:center;}
+a{text-decoration:none;}
+    </style>
+</head>
+<body style="padding: 10px;">
+	<table class="layui-table table">
+	<col width="50" />
+   <col width="100"/>
+   <col width="130"/>
+   <col width="80"/>
+   <col width="40"/>
+   <col width="75"'/>
+   <col width="65"/>
+   <col width="100"/>
+   
+  <tr>
+      <td colspan="8" style="font-weight:bold; font-size:16px;border:0;">城固县汽车运输公司</td>
+    </tr>
+    <tr>
+      <td colspan="8"  style="font-weight:bold; font-size:20px;border:0;">售票员简历</td>
+    </tr>
+   <tr height="26">
+    <td colspan="8"  style="border:0;text-align:left;">编号：{$res.id}</td>
+   </tr>
+   <tr height="40"'>
+    <td>姓名</td>
+    <td >{$res.name}</td>
+    <td >性别</td>
+    <td  colspan="2">{if condition="$sex eq 0"}男{else}女{/if}</td>
+    <td >民族</td>
+    <td  colspan="2">{$res.rq}</td>
+   </tr>
+   <tr height="40"'>
+    <td colspan="2">身份证号码</td>
+    <td  colspan="2">{$res.sfz}</td>
+    <td  colspan="2">上岗证证号</td>
+    <td  colspan="2">{$res.sgzh}</td>
+   </tr>
+   <tr height="40"'>
+    <td  colspan="2">服务车辆</td>
+    <td >{$res.bus}</td>
+    <td >上岗证号</td>
+    <td colspan="2">{$res.sgzh}</td>
+    <td>年龄</td>
+    <td >{$age}岁</td>
+   </tr>
+   <tr height="50">
+      <td width="50">住  址</td>
+      <td colspan="5" width="300">陕西省城固县{$list.zhuzhi
+}</td>
+<td  rowspan="2"colspan="2" ><img src="/spy/{$res.zp}"alt=""onmouseover="layer.tips('<img src=/spy/{$res.zp} width=100%>',this,{time:10000,tips: [1, '#fff']});" onmouseout="layer.closeAll();"/></td>
+</tr>
+ <tr height="50">
+      <td >手机</td>
+      <td colspan="2" width="144">{$res.tel}</td>
+      <td >qq</td>
+      <td colspan="2"></td>
+      
+    </tr>
+	<tr>
+	<td>身份证</td>
+      <td colspan="2"width="100"><img src="/spy/{$res.sfz_pic}"alt=""onmouseover="layer.tips('<img src=/spy/{$res.sfz_pic} width=200%>',this,{time:10000,tips: [1, '#fff']});" onmouseout="layer.closeAll();"/></td>
+<td>资格证</td>
+      <td colspan="2"><img src="/{$res.zgz_pic}"onmouseover="alt=""layer.tips('<img src=/{$res.zgz_pic} width=300%>',this,{time:10000,tips: [1, '#fff']});" onmouseout="layer.closeAll();"/></td>
+<td>上岗证</td>
+      <td  ><img src="/{$res.sgz_pic}"alt=""onmouseover="layer.tips('<img src=/{$res.sgz_pic} width=300%>',this,{time:10000,tips: [1, '#fff']});" onmouseout="layer.closeAll();"/></td>
+    </tr>
+   
+  
+   <tr height="300"'>
+    <td >个人履历</td>
+    <td  colspan="7"style="text-align:left"valign="top">{$res.jianli}</td>
+   </tr>
+   <tr height="180">
+    <td>奖惩情况</td>
+    <td colspan="7"style="text-align:left"valign="top">
+	
+	</td>
+   </tr>
+   <tr height="48"'>
+    <td >备注</td>
+    <td colspan="7">{$res.beizu}</td>
+   </tr>
+  
+	</table>
+<script>
+		layui.use(['layer','form'],function(){
+			form = layui.form;
+			layer = layui.layer;
+			$ = layui.jquery;
+		});
+		</script>
+</body>
+</html>

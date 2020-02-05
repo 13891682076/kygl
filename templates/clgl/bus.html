@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/layui/css/layui.css">
+	<script type="text/javascript" src="__STATIC__/plugins/layui/layui.js"></script>
+<style>
+        
+	 .table {
+            width: 655px;
+            height: 955px;
+            margin: auto;
+            font-size: 11px;
+            border-collapse: collapse
+        }
+
+td{border:1px solid black;text-align:center;}
+a{text-decoration:none;}
+    </style>
+</head>
+<body style="padding: 10px;">
+	<table class="layui-table table">
+	<col width="50" />
+   <col width="100"/>
+   <col width="130"/>
+   <col width="80"/>
+   <col width="40"/>
+   <col width="75"/>
+   <col width="65"/>
+   <col width="100"/>
+   
+  <tr>
+      <td colspan="8" style="font-weight:bold; font-size:16px;border:0;">城固县汽车运输公司</td>
+    </tr>
+    <tr>
+      <td colspan="8"  style="font-weight:bold; font-size:20px;border:0;">车辆信息表</td>
+    </tr>
+   <tr height="26">
+    <td colspan="8"  style="border:0;text-align:left;">编号：{{ bus.pk }}</td>
+   </tr>
+   <tr height="40">
+    <td>车号</td>
+    <td >{{ bus.name }}</td>
+    <td >车型</td>
+    <td  colspan="2">{{ bus.get_lxdj_display }}</td>
+    <td >入户日期</td>
+    <td  colspan="2">{$res.rq}</td>
+   </tr>
+   <tr height="40">
+    <td colspan="2">道路运输证号</td>
+    <td  colspan="2">{{ bus.xsz }}</td>
+    <td  colspan="2">营运证号</td>
+    <td  colspan="2"></td>
+   </tr>
+   <tr height="40">
+    <td  colspan="2">客运线路</td>
+    <td >{$res.kyxl}</td>
+    <td >GPS视频</td>
+    <td >{$res.isjps}</td>
+    <td >审验日期</td>
+    <td  colspan="2">{$res.syrq}</td>
+   </tr>
+   <tr height="40">
+    <td >座位</td>
+    <td >{$res.zw}</td>
+    <td >类型等级</td>
+    <td >{$res.lj}</td>
+    <td >技术等级</td>
+    <td >{$res.jsdj}</td>
+    <td >车属部门</td>
+    <td >公交公司</td>
+   </tr>
+   <tr height="116">
+    <td >行驶证</td>
+    <td  colspan="2"><img src="/{$res.xsz}" height="50px"alt=""onmouseover="layer.tips('<img src=/{$res.xsz} height=200>',this,{tips: [1, '#fff']});" onmouseout="layer.closeAll();"/></td>
+    <td >营运证</td>
+    <td  colspan="2"><img src="/{$res.yyz}" height="50px"alt=""onmouseover="layer.tips('<img src=/{$res.yyz} height=200>',this,{tips: [1, '#fff']});" onmouseout="layer.closeAll();"/></td>
+    <td  colspan="2"></td>
+   </tr>
+   <tr height="217">
+    <td >车辆承包变更记录</td>
+    <td  colspan="7"style="text-align:left">{$res.record}</td>
+   </tr>
+   <tr height="212">
+    <td>车辆承包人身份证</td>
+    <td colspan="7">
+	{volist name="sfz" id="vo"}
+					<img src="/{$vo.pic}" height="100"onmouseover="layer.tips('<img src=/{$vo.pic} height=200>',this,{tips: [3, '#fff']});" onmouseout="layer.closeAll();">
+					
+					{/volist}
+	</td>
+   </tr>
+   <tr height="48">
+    <td >备注</td>
+    <td colspan="7">{$res.bz}</td>
+   </tr>
+  
+	</table>
+<script>
+		layui.use(['layer','form'],function(){
+			form = layui.form;
+			layer = layui.layer;
+			$ = layui.jquery;
+		});
+		</script>
+</body>
+</html>

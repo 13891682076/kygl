@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load staticfiles thumbnail yggl_extras %}
+
+{% block title %}
+    {{ yg.name }} | {{ block.super }}
+{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <div>
+                <span class="h3">【书】<strong>{{ yg.name }}</strong></span>
+                <span class="h6">{{ yg.created_at|date:"SHORT_DATE_FORMAT" }}上架</span>
+                <hr/>
+            </div>
+
+
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <strong>本书作者</strong>
+                </div>
+                <div class="card-body pb-1">
+
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <strong>该书标签云</strong>
+                </div>
+                <div class="card-body py-2">
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block modal %}{% endblock modal %}
+
+
+{% block javascript %}
+    <script type="text/javascript">
+        //发送Ajax请求 添加、取消用户收藏
+        function add_favor(current_elem, fav_id, fav_type) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'operates:add_fav' %}",
+                data: {'fav_id':fav_id, 'fav_type':fav_type},
+                async:true,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function (data) {
+                    if(data.status == 'fail'){
+                        alert(data.msg);
+                    }else{
+                        current_elem.text(data.msg);
+                    }
+
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            $("#btn-fav").on('click', function () {
+                if("{{ request.user.is_authenticated }}" === "True"){
+                    add_favor($(this), {{ book.pk }}, 2);
+                }else{
+                     alert("请先登录再收藏！")
+                }
+
+            })
+        });
+    </script>
+
+{% endblock %}

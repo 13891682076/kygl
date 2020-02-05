@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load staticfiles thumbnail yggl_extras %}
+
+{% block title %}
+    员工列表页 | {{ block.super }}
+
+
+{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+
+{% block content %}
+    {% get_categories as categories %}
+    {% get_bm as bms %}
+
+    {#    {% get_freqtags as freqtags %}#}
+    {#    {% get_moretags as moretags %}#}
+    {% get_tags as tags %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <a href="?ctg=&m={{ m }}">
+                <span class="btn {% ifequal ctg '' %}btn-danger{% else %}btn-default{% endifequal %}">
+                    员工类别：</span></a>
+            {% for category in categories %}
+                <a href="?ctg={{ category.pk }}&m={{ m }}">
+                    <span class="btn {% ifequal ctg category.pk|stringformat:'s' %}btn-danger{% else %}btn-default{% endifequal %}">
+                        {{ category.catname }}
+                    </span>
+                </a>
+            {% endfor %}
+        </div>
+        <div class="col-md-12 mt-2">
+            <a href="?epch=&ctg={{ ctg }}&m={{ m }}"><span
+                    class="btn {% ifequal m '' %}btn-success{% else %}btn-default{% endifequal %}">所有部门：</span></a>
+            {% for bm in bms %}
+                <a href="?m={{ bm.pk }}&ctg={{ ctg }}"><span
+                        class="btn {% ifequal m bm.pk|stringformat:'s' %}btn-success{% else %}btn-default{% endifequal %}">{{ bm.name }}</span></a>
+            {% endfor %}
+        </div>
+
+        <div class="col-md-12 mt-2">
+            <a href="?tag="><span
+                    class="btn {% ifequal tag '' %}btn-info{% else %}btn-default{% endifequal %}">所有标签：</span></a>
+            {% for tg in tags.freqtags %}
+                <a href="?tag={{ tg.pk }}"><span
+                        class="btn {% ifequal tag tg.pk|stringformat:'s' %}btn-info{% else %}btn-default{% endifequal %}">{{ tg.tagname }}</span></a>
+            {% endfor %}
+            <a href="#"><span class="btn btn-default" data-toggle="collapse"
+                              data-target="#collapseTags">更多标签</span></a>
+            <div class="collapse" id="collapseTags">
+                {% for tg in tags.moretags %}
+                    <a href="?tag={{ tg.pk }}"><span
+                            class="btn {% ifequal tag tg.pk|stringformat:'s' %}btn-info{% else %}btn-default{% endifequal %}">{{ tg.tagname }}</span></a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        {% for bok in page_obj.object_list %}
+            <div class="col-md-3">
+                {% include 'yggl/yg_single.html' with yg=bok %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <!--分页-->
+    {% include 'pagination.html' with page_obj=page_obj %}
+
+{% endblock content %}
+
+
+{% block modal %}{% endblock modal %}
+
+
+{% block javascript %}
+    <script>
+        function gaikuang(id){
+        layer.open({
+        type: 2,
+        title:'车辆信息表',
+        skin: '', //加上边框
+        area: ['210mm', '230mm'], //宽高
+        maxmin: true,
+        content: '{:url("gaikuang")}?id='+id
+        });
+        }
+
+    </script>
+{% endblock %}

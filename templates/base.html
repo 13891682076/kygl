@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+{% load staticfiles thumbnail %}
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>{% block title %}客运管理{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}"/>
+
+    <link href="{% static 'bootstrap-4.3.1-dist/css/bootstrap.css' %}" rel="stylesheet"/>
+    <link href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.css' %}" rel="stylesheet"/>
+    {% block css %}{% endblock %}
+
+</head>
+
+<body>
+
+<div class="mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">客运管理</a>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" id="home">
+                    <a class="nav-link" href="#">首 页 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" id="news">
+                    <a class="nav-link {% if '/yggl' in request.path %}
+                active
+                {% endif %}" href="{% url 'yggl:yg_list' %}">员工管理</a>
+                </li>
+                <li class="nav-item" id="quora">
+                    <a class="nav-link {% if '/clgl' in request.path %}
+                active
+                {% endif %}" href="{% url 'clgl:clgl_index' %}">车辆管理</a>
+                </li>
+                <li class="nav-item" id="quora">
+                    <a class="nav-link" href="{% url 'news:list' %}">新闻</a>
+                </li>
+                <li class="nav-item" id="chat">
+                    <a class="nav-link" href="#">相 册</a>
+                </li>
+                <li class="nav-item" id="chat">
+                    <a class="nav-link" href="#">摄影机构</a>
+                </li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item" id="users">
+                        <a id="sign-up-link" class="nav-link"
+                           href="{% url 'users:detail' request.user.username %}">
+                            {% thumbnail request.user.avatar "x25" as im %}
+                                <img src="{{ im.url }}" style="border-radius: 50%;" alt="用户头像" class="user-image"/>
+                            {% empty %}
+                                <img src="{% static 'images/user.png' %}" height="25px" alt="没有头像"/>
+                            {% endthumbnail %}
+                        </a>
+                    </li>
+                    <li class="nav-item" id="logout">
+
+                        <a id="sign-up-link" class="nav-link"
+                           href="{% url 'account_logout' %}">退 出</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item" id="signup">
+
+                        <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">注 册</a>
+                    </li>
+                    <li class="nav-item" id="login">
+
+                        <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">登 录</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}
+        <p>Use this document as a way to quick start any new project.</p>
+    {% endblock content %}
+
+</div> <!-- /container -->
+
+{% block modal %}{% endblock modal %}
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+{#<script src="{% static 'js/popper.min.js' %}"></script>#}
+<script src="{% static 'bootstrap-4.3.1-dist/js/bootstrap.bundle.js' %}"></script>
+{% block javascript %}
+    <script type="text/javascript">
+        const currentUser = "{{ request.user.username }}";
+    </script>
+{% endblock %}
+</body>
+</html>
+ 

@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load staticfiles thumbnail %}
+
+{% block title %}
+    车辆管理 | {{ block.super }}
+
+
+{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+        {#        {% include 'navigator.html'%}#}
+
+        <div>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#book-introduction"
+                       role="tab">车辆管理</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#book-chapter" role="tab">
+                        驾驶员管理<span class="badge badge-info">{{ chapters.count }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#book-notes" role="tab">
+                        售票员管理<span class="badge badge-info">{{ booknotes.count }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#book-visitors" role="tab">
+                        承包经营人<span class="badge badge-info">0</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent" style="margin-top: 1rem">
+                <div class="tab-pane fade show active" id="book-introduction" role="tabpanel">
+                    <h5 style="color: blue">
+                        车辆管理
+                    </h5>
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr class="table-primary">
+                            <th scope="col">编号</th>
+                            <th scope="col">车号</th>
+                            <th scope="col">行驶证</th>
+                            <th scope="col">类型等级</th>
+                            <th scope="col">所属部门</th>
+                            <th scope="col">经营人</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for bok in page_obj.object_list %}
+                            <tr class="table-primary">
+                            <th scope="col">{{ bok.pk }}</th>
+                            <td><a href="{% url 'clgl:bus' bok.pk %}" target="_blank" >{{ bok.name }}</a></td>
+                            <td>{{ bok.xsz }}</td>
+                            <td>{{ bok.get_lxdj_display }}</td>
+                            <td>{{ bok.get_bm_display}}</td>
+                            <td>{{ bok.bus_user }}</td>
+                        {% endfor %}
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <!--分页-->
+                    {% include 'pagination.html' with page_obj=page_obj %}
+                </div>
+                <div class="tab-pane fade" id="book-notes" role="tabpanel">
+
+                </div>
+                <div class="tab-pane fade" id="book-chapter" role="tabpanel">
+                    <div class="row">
+                        <h5 style="color: blue">
+                        承包人管理
+                    </h5>
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr class="table-primary">
+                            <th scope="col">编号</th>
+                            <th scope="col">姓名</th>
+                            <th scope="col">部门</th>
+                            <th scope="col">手机</th>
+                            <th scope="col">地址</th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for user in user_obj.object_list %}
+                            <tr class="table-primary">
+                            <th scope="col">{{ user.pk }}</th>
+                            <td><a href="{% url 'clgl:jsy' user.pk %} " target="_blank">{{ user.name }}</a></td>
+                            <td>{{ user.get_bm_display }}</td>
+                            <td>{{ user.mobile }}</td>
+                            <td>{{ user.address }}</td>
+
+                        {% endfor %}
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <!--分页-->
+                    {% include 'pagination.html' with user_obj=user_obj %}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="book-visitors" role="tabpanel">
+                    <div class="row">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}
+
+
+{% block modal %}{% endblock modal %}
+
+
+{% block javascript %}
+    <script>
+        function gaikuang(id) {
+            layer.open({
+                type: 2,
+                title: '车辆信息表',
+                skin: '', //加上边框
+                area: ['210mm', '230mm'], //宽高
+                maxmin: true,
+                content: '{:url("gaikuang")}?id=' + id
+            });
+        }
+
+    </script>
+{% endblock %}

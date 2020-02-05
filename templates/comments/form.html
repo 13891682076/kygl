@@ -1,0 +1,50 @@
+{% load comments crispy_forms_tags %}
+
+{% if user.is_authenticated %}
+    <form action="{% comment_form_target %}" method="post">
+        {% csrf_token %}
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}"/>
+        {% else %}
+            <input type="hidden" name="next" value="{% url 'comment_success' %}">
+        {% endif %}
+
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        {#        {{ form.content_type }}#}
+        {#        {{ form.object_pk }}#}
+        {#        {{ form.timestamp }}#}
+        {#        {{ form.security_hash }}#}
+        {#        {{ form.parent }}#}
+
+        <div id="div_id_comment" class="form-group">
+            <label for="id_comment" class="col-form-label  requiredField"> 评论内容<span
+                    class="asteriskField">*</span></label>
+            <div class="">
+                <textarea name="comment" cols="100%" rows="6" maxlength="150" class="textarea form-control" required
+                          id="id_comment"></textarea>
+            </div>
+        </div>
+
+        <p class="submit">
+            <input type="submit" name="post" class="submit-post" value="提交评论"/>
+            <input type="submit" name="preview" class="submit-preview" value="预览评论"/>
+        </p>
+    </form>
+{% else %}
+    <h4>允许匿名评论！</h4>
+    <form action="{% comment_form_target %}" method="post">
+        {% csrf_token %}
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}"/>
+        {% else %}
+            <input type="hidden" name="next" value="{% url 'comment_success' %}">
+        {% endif %}
+        {{ form|crispy }}
+        <p class="submit">
+            <input type="submit" name="post" class="submit-post" value="提交评论"/>
+            <input type="submit" name="preview" class="submit-preview" value="预览评论"/>
+        </p>
+    </form>
+{% endif %}

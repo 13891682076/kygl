@@ -1,0 +1,31 @@
+{% load staticfiles thumbnail %}
+{% load range from yggl_extras %}
+
+<div class="card mb-3 p-1">
+    {% if simplecard %}
+    {% else %}
+        {% thumbnail yg.sfz_img "220x160" as im %}
+            <a href="{% url 'yggl:yg_detail' yg.pk %}">
+                <img src="{{ im.url }}" class="card-img-top" alt="身份证"/>
+            </a>
+        {% endthumbnail %}
+    {% endif %}
+
+    <div class="card-body">
+        <h5 class="card-title"><a href="#">{{ book.title }}</a>
+            <span></span>
+            <small class="float-right"><span
+                    class="badge badge-secondary"></span></small>
+        </h5>
+        <p class="card-text">姓名：
+            <a class="mr-1" href="#">{{ yg.name }}</a></p>
+        {% if simplecard %}
+        {% else %}
+            <p class="card-text">身份证：<a href="#">{{ yg.sfz }}</a></p>
+
+        {% endif %}
+
+    </div>
+</div>
+
+

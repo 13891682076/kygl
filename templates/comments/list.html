@@ -1,0 +1,41 @@
+{% load staticfiles thumbnail mptt_tags %}
+
+<div id="comments">
+    {% recursetree comment_list %}
+        <div class="media" id="c{{ node.id }}">
+            <a {% if node.user_id %}href="{% url 'users:detail' node.user_name %}"{% endif %}>
+                {% thumbnail node.user.avatar "x40" as im %}
+                    <img src="{{ im.url }}" style="border-radius: 50%;" alt="用户头像" class="user-image mr-3"/>
+                {% empty %}
+                    <img src="{% static 'images/user.png' %}" height="40px" alt="没有头像" class="user-image mr-3"/>
+                {% endthumbnail %}
+            </a>
+            <div class="media-body">
+                <h5 class="mt-0">{{ node.name }}
+                    <small>发表于: {{ node.submit_date|date:'Y-m-d' }}</small>
+                    <a href="{% url 'mptt_comments_reply' node.pk %}" style="font-size: small">回复</a>
+                </h5>
+                {{ node.comment_html|safe }}
+
+                {% if not node.is_leaf_node %}
+                    <div class="children ml-3">
+                        {{ children }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endrecursetree %}
+</div>
+
+{##}
+{#<div class="media mt-3">#}
+{#    <a class="mr-3" href="#">#}
+{#        <img src="..." class="mr-3" alt="...">#}
+{#    </a>#}
+{#    <div class="media-body">#}
+{#        <h5 class="mt-0">Media heading</h5>#}
+{#        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio,#}
+{#        vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec#}
+{#        lacinia congue felis in faucibus.#}
+{#    </div>#}
+{#</div>#}

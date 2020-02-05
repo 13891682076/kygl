@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load staticfiles thumbnail %}
+
+{% block title %}
+    出版社列表页| {{ block.super }}
+{% endblock %}
+
+{% block css %}{% endblock %}
+
+
+{% block content %}
+    <!--过滤条件--->
+    <div class="row">
+        <div class="col-md-12">
+            <a href="?ct="><span
+                    class="btn {% ifequal ct '' %}btn-danger{% else %}btn-default{% endifequal %}"> 所有城市：</span></a>
+            {% for city in cities %}
+                <a href="?ct={{ city.pk }}">
+                    <span class="btn {% ifequal ct city.pk|stringformat:'s' %}btn-danger{% else %}btn-default{% endifequal %}">
+                        {{ city.name }}
+                    </span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!--出版社列表--->
+    <div class="row mt-3">
+        <div class="card-columns">
+            {% for publisher in page_obj.object_list %}
+                <div class="card">
+                    {% thumbnail publisher.cover "220x160" as im %}
+                        <a href="{% url 'orgs:publisher_detail' publisher.pk %}">
+                            <img src="{{ im.url }}" class="card-img-top" alt="出版社封面"/>
+                        </a>
+                    {% endthumbnail %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ publisher.name }}
+                        <small class="float-right"><span
+                        class="badge badge-secondary">{{ publisher.get_category_display }}</span></small>
+                        </h5>
+                        <p class="card-text">
+                            {{ publisher.abstract|truncatechars:40 }}
+                        </p>
+                        <p class="card-text">
+                            <small>签约作者：{{ publisher.get_author_count }} 位</small>
+                            <small>出版图书：{{ publisher.get_book_count }}</small>
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <!--分页--->
+    {% include 'pagination.html' with page_obj=page_obj %}
+
+{% endblock %}
+
+
+{% block javascript %}{% endblock %}
